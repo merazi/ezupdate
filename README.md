@@ -1,6 +1,4 @@
----
-title: Data Updater
----
+# Data Updater
 
 Simple GUI to collect and send information as a POST request.
 
