@@ -1,0 +1,57 @@
+import tkinter as tk
+from tkinter import ttk
+
+# window
+window = tk.Tk()
+window.title('Insert Data')
+window.geometry('500x500')
+
+# title
+title_label = ttk.Label(master=window, text="Data Entry", font="Calibri 24 bold")
+
+# dropdown menu selections
+genders = ["M","F"]
+drop_string = tkinter.StringVar(input_frame) 
+
+# input area fields
+input_frame = ttk.Frame(master=window)
+names = ttk.Entry(master=input_frame)
+lnames = ttk.Entry(master=input_frame)
+gender = OptionMenu(master=input_frame, drop_string, *options)
+birthday = ttk.Entry(master=input_frame)
+email = ttk.Entry(master=input_frame)
+phone = ttk.Entry(master=input_frame)
+address = ttk.Entry(master=input_frame)
+civil_status = ttk.Entry(master=input_frame)
+userr = ttk.Entry(master=input_frame)
+useru = ttk.Entry(master=input_frame)
+dater = ttk.Entry(master=input_frame)
+dateu = ttk.Entry(master=input_frame)
+status = ttk.Entry(master=input_frame)
+timer = ttk.Entry(master=input_frame)
+timeu = ttk.Entry(master=input_frame)
+submit = ttk.Button(master=input_frame, text="Submit")
+
+# add elements to gui
+title_label.pack()
+input_frame.pack()
+
+names.pack()
+lnames.pack()
+gender.pack()
+birthday.pack()
+email.pack()
+phone.pack()
+address.pack()
+civil_status.pack()
+userr.pack()
+useru.pack()
+dater.pack()
+dateu.pack()
+status.pack()
+timer.pack()
+timeu.pack()
+submit.pack()
+
+# run window
+window.mainloop()
