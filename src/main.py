@@ -65,7 +65,8 @@ input_frame = ttk.Frame(master=window)
 input_frame.grid(row=1, column=0, padx=10, pady=5)
 
 # title
-title_label = ttk.Label(master=window, text="Ingrese Cliente", font="Calibri 24 bold").grid(row=0, column=0, padx=10, pady=5)
+title_label = ttk.Label(master=window, text="Ingrese Cliente",
+                        font="Calibri 24 bold").grid(row=0, column=0, padx=10, pady=5)
 
 # field variables
 names = tk.StringVar()

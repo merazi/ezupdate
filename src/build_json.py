@@ -1,6 +1,13 @@
-def parse_data(names,lnames,gender,dob,email,phone,address,civil_status,userr,useru,dateu,dater,status,timer,timeu):
+import json
+
+def parse_data(names,lnames,
+               gender,dob,email,
+               phone,address,
+               civil_status,userr,
+               useru,dateu,dater,
+               status,timer,timeu):
     # create dictionary with received data
-    # also note we have to use the db's column names here
+    # also note we are using the actual db's column names
     client = dict()
     client["nombres"] = names
     client["apellidos"] = lnames
@@ -18,5 +25,7 @@ def parse_data(names,lnames,gender,dob,email,phone,address,civil_status,userr,us
     client["timer"] = timer
     client["timeu"] = timeu
   
+    print(json.dumps(client))
+
     # return dictionary
     return client
