@@ -1,2 +1,3 @@
-AccountAdd  https://eojcf9ylwovln2u.m.pipedream.net
-CustomerAdd https://eot5nxsbpnt20i2.m.pipedream.net
+AccountAdd      https://eojcf9ylwovln2u.m.pipedream.net
+CustomerAdd     https://eot5nxsbpnt20i2.m.pipedream.net
+AccountTypeAdd  https://eojs1ez2lmnud8k.m.pipedream.net
