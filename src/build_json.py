@@ -36,7 +36,7 @@ def build_client(
     client["status"] = status
     client["timer"] = timer
     client["timeu"] = timeu
-    client["table_name"] = "clientes"
+    client["table_name"] = "CustomerAdd"
 
     print(json.dumps(client))
 
@@ -56,7 +56,7 @@ def build_account(account_number, userr, useru, dateu, dater, status, timer, tim
     account["status"] = status
     account["timer"] = timer
     account["timeu"] = timeu
-    account["table_name"] = "cuentas"
+    account["table_name"] = "AccountAdd"
 
     print(json.dumps(account))
 
@@ -78,13 +78,13 @@ def build_account_type(
     account_type["status"] = status
     account_type["timer"] = timer
     account_type["timeu"] = timeu
-    account_type["table_name"] = "tipo_cuenta"
+    account_type["table_name"] = "AccountTypeAdd"
 
     print(json.dumps(account_type))
     return account_type
 
 
-def build_rel_acct_client(
+def build_assign_client(
     id_client,
     id_account,
     id_account_type,
@@ -98,8 +98,8 @@ def build_rel_acct_client(
 ):
     rel_acct_client = dict()
     rel_acct_client["id_client"] = id_client
-    rel_acct_client["id_account"] = id_account
     rel_acct_client["id_account_type"] = id_account_type
+    rel_acct_client["id_account"] = id_account
     rel_acct_client["userr"] = userr
     rel_acct_client["useru"] = useru
     rel_acct_client["dateu"] = dateu
@@ -107,5 +107,5 @@ def build_rel_acct_client(
     rel_acct_client["status"] = status
     rel_acct_client["timer"] = timer
     rel_acct_client["timeu"] = timeu
-    rel_acct_client["table_name"] = "rel_acct_client"
+    rel_acct_client["table_name"] = "AssignAccountToCustomer"
     return rel_acct_client
