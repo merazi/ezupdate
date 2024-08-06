@@ -36,7 +36,7 @@ def build_client(
     client["status"] = status
     client["timer"] = timer
     client["timeu"] = timeu
-    client["table_name"] = "CustomerAdd"
+    client["table_name"] = "clientes"
 
     print(json.dumps(client))
 
@@ -56,7 +56,7 @@ def build_account(account_number, userr, useru, dateu, dater, status, timer, tim
     account["status"] = status
     account["timer"] = timer
     account["timeu"] = timeu
-    account["table_name"] = "AccountAdd"
+    account["table_name"] = "cuentas"
 
     print(json.dumps(account))
 
@@ -78,7 +78,7 @@ def build_account_type(
     account_type["status"] = status
     account_type["timer"] = timer
     account_type["timeu"] = timeu
-    account_type["table_name"] = "AccountTypeAdd"
+    account_type["table_name"] = "tipo_cuenta"
 
     print(json.dumps(account_type))
     return account_type
@@ -107,5 +107,38 @@ def build_assign_client(
     rel_acct_client["status"] = status
     rel_acct_client["timer"] = timer
     rel_acct_client["timeu"] = timeu
-    rel_acct_client["table_name"] = "AssignAccountToCustomer"
+    rel_acct_client["table_name"] = "rel_cuentas_clientes"
     return rel_acct_client
+
+
+def build_movement(
+    id_acct_client,
+    movement_date,
+    movement_desc,
+    movement_charge,
+    movement_credit,
+    movement_balance,
+    userr,
+    useru,
+    dateu,
+    dater,
+    status,
+    timer,
+    timeu,
+):
+    movement = dict()
+    movement["id_acct_client"] = id_acct_client
+    movement["movement_date"] = movement_date
+    movement["movement_desc"] = movement_desc
+    movement["movement_charge"] = movement_charge
+    movement["movement_credit"] = movement_credit
+    movement["movement_balance"] = movement_balance
+    movement["userr"] = userr
+    movement["useru"] = useru
+    movement["dateu"] = dateu
+    movement["dater"] = dater
+    movement["status"] = status
+    movement["timer"] = timer
+    movement["timeu"] = timeu
+    movement["table_name"] = "movimientos"
+    return movement
