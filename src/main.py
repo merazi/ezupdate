@@ -3,7 +3,5 @@ import account_input
 
 headers = {
     "Content-Type": "application/json",
-    "Authorization": "Bearer YOUR_ACCESS_TOKEN",  # if you need to send a token
+    "Authorization": "Bearer YOUR_ACCESS_TOKEN",
 }
-
-endpoint = "https://eoyus36os9yhubs.m.pipedream.net"

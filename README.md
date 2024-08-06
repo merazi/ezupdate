@@ -1,5 +1,11 @@
-# Data Updater
+# ezupdate
 
-Simple GUI to collect and send information as a POST request.
+GUI sencilla hecha con python y tkinter para ingresar datos en una base de datos que hice para una tarea.
 
-Input fields are based on a MySQL table I made.
+# Tablas y sus respectivos archivos
+
+- clientes = clients_input.py
+- cuentas = account_input.py
+- movimientos = <TODO>
+- rel_cuenta_clientes = clients_accts_accttype_input.py
+- tipo_cuenta = account_type_input.py
