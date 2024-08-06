@@ -1,3 +1,4 @@
+import endpoint
 import tkinter as tk
 import build_json as mj
 import send_request as sr
@@ -16,14 +17,14 @@ con = mysql.connector.connect(host=h, database=d, user=u, password=p)
 
 
 def select_all_from_table(table, connection):
-    query = f'SELECT * FROM {table}'
+    query = f"SELECT * FROM {table}"
     cursor = connection.cursor()
     cursor.execute(query)
     rows = cursor.fetchall()
     return rows
 
 
-endpoint = "https://eo1q9gqfl1zy3jq.m.pipedream.net"
+endpoint = endpoint.get_url()
 headers = {
     "Content-Type": "application/json",
     "Authorization": "Bearer YOUR_ACCESS_TOKEN",  # if you need to send a token

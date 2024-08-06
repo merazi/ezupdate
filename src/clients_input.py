@@ -1,10 +1,11 @@
+import endpoint
 import tkinter as tk
 import build_json as mj
 import send_request as sr
 from tkinter import ttk
 from datetime import datetime
 
-endpoint = "https://eo1q9gqfl1zy3jq.m.pipedream.net"
+endpoint = endpoint.get_url()
 headers = {
     "Content-Type": "application/json",
     "Authorization": "Bearer YOUR_ACCESS_TOKEN",  # if you need to send a token
