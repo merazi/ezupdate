@@ -3,6 +3,25 @@ import build_json as mj
 import send_request as sr
 from tkinter import ttk
 from datetime import datetime
+import mysql.connector
+import db_credentials
+import json
+
+# Create a connection
+h = db_credentials.host
+d = db_credentials.database
+u = db_credentials.user
+p = db_credentials.password
+con = mysql.connector.connect(host=h, database=d, user=u, password=p)
+
+
+def select_all_from_table(table, connection):
+    query = f'SELECT * FROM {table}'
+    cursor = connection.cursor()
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    return rows
+
 
 endpoint = "https://eo1q9gqfl1zy3jq.m.pipedream.net"
 headers = {
@@ -15,7 +34,7 @@ window = tk.Tk()
 
 # field variables
 cliente = tk.StringVar()
-tipo_cuenta = tk.StringVar() 
+tipo_cuenta = tk.StringVar()
 cuenta = tk.StringVar()
 
 
@@ -71,8 +90,7 @@ title_label = ttk.Label(
 # fields
 
 ## for clients
-client_list = [] #getClientsFromSQL()
-
+client_list = select_all_from_table("clientes", con)
 client_entry_label = ttk.Label(master=input_frame, text="Seleccione un cliente:")
 client_entry_label.grid(row=1, column=0, padx=10, pady=5)
 client_entry = ttk.Combobox(master=input_frame, textvariable=cliente)
@@ -80,23 +98,23 @@ client_entry["values"] = client_list
 client_entry.grid(row=2, column=0, padx=10, pady=5)
 
 ## for account types
-account_type_list = [] #getAccountTypesFromSQL()
+account_type_list = select_all_from_table("tipo_cuenta", con)
 account_type_entry_label = ttk.Label(master=input_frame, text="Tipo de Cuenta:")
 account_type_entry_label.grid(row=1, column=1, padx=10, pady=5)
 account_type_entry = ttk.Combobox(master=input_frame, textvariable=tipo_cuenta)
 account_type_entry["values"] = account_type_list
 account_type_entry.grid(row=2, column=1, padx=10, pady=5)
 
-## for account types
-account_type_list = [] #getAccountsFromSQL()
-account_type_entry_label = ttk.Label(master=input_frame, text="Tipo de Cuenta:")
-account_type_entry_label.grid(row=1, column=1, padx=10, pady=5)
-account_type_entry = ttk.Combobox(master=input_frame, textvariable=tipo_cuenta)
-account_type_entry["values"] = account_type_list
-account_type_entry.grid(row=2, column=1, padx=10, pady=5)
+## for accounts
+account_list = select_all_from_table("cuentas", con)
+account_entry_label = ttk.Label(master=input_frame, text="Tipo de Cuenta:")
+account_entry_label.grid(row=1, column=2, padx=10, pady=5)
+account_entry = ttk.Combobox(master=input_frame, textvariable=cuenta)
+account_entry["values"] = account_list
+account_entry.grid(row=2, column=2, padx=10, pady=5)
 
 # submit button
-submit_button = ttk.Button(master=window, text="Submit", command=assign_acct_to_client).grid(
-    row=2, column=0, padx=10, pady=5
-)
+submit_button = ttk.Button(
+    master=window, text="Submit", command=assign_acct_to_client
+).grid(row=2, column=0, padx=10, pady=5)
 window.mainloop()
