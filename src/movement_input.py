@@ -4,6 +4,9 @@ import build_json as mj
 import send_request as sr
 from tkinter import ttk
 from datetime import datetime
+from tkcalendar import Calendar
+import mysql.connector
+import db_credentials
 import os
 
 endpoint = endpoint.get_url()
@@ -12,18 +15,48 @@ headers = {
     "Authorization": "Bearer YOUR_ACCESS_TOKEN",  # if you need to send a token
 }
 
+# Create a connection
+h = db_credentials.host
+d = db_credentials.database
+u = db_credentials.user
+p = db_credentials.password
+con = mysql.connector.connect(host=h, database=d, user=u, password=p)
+
 # window
 window = tk.Tk()
 
 # field variables
-account_type_desc = tk.StringVar()
-account_type_curr = tk.StringVar()
+rel = tk.StringVar()
+date = tk.StringVar()
+description = tk.StringVar()
+charge = tk.StringVar()
+credit = tk.StringVar()
+balance = tk.StringVar()
+
+
+def select_all_from_table(table, connection):
+    query = f"SELECT * FROM {table} INNER JOIN "
+    cursor = connection.cursor()
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    return rows
+
+
+def get_id_from_combobox(combo_StringVar):
+    """This function helps me extract the id number from the Comboboxes"""
+    id = [int(word) for word in combo_StringVar.get().split() if word.isdigit()][0]
+    return id
 
 
 def create_account_type(endpoint, headers):
     # collect data from data entries
-    val_account_type_desc = account_type_desc_entry.get()
-    val_account_type_curr = account_type_curr_entry.get()
+    # TODO: Change this...
+    val_rel_id = get_id_from_combobox(rel)
+    val_date = movement_date_entry.get_date()
+    # val_description =
+    # val_charge =
+    # val_credit =
+    # val_balance =
 
     # user information, placeholders for now
     now = datetime.now()
@@ -37,8 +70,12 @@ def create_account_type(endpoint, headers):
 
     # create dictionary with all items
     account_type_data = mj.build_account_type(
-        val_account_type_desc,
-        val_account_type_curr,
+        # val_rel_id,
+        # val_date,
+        # val_description,
+        # val_charge,
+        # val_credit,
+        # val_balance,
         val_userr,
         val_useru,
         val_dateu,
@@ -65,21 +102,30 @@ input_frame = ttk.Frame(master=window)
 input_frame.grid(row=1, column=0, padx=10, pady=5)
 
 # title
-title_label = ttk.Label(
-    master=window, text="Nuevo Tipo de Cuenta", font="Calibri 24 bold"
-)
+title_label = ttk.Label(master=window, text="Crear movimiento", font="Calibri 24 bold")
 title_label.grid(row=0, column=0, padx=10, pady=5)
 
 # fields
-account_type_desc_label = ttk.Label(master=input_frame, text="Id Cliente")
-account_type_desc_label.grid(row=1, column=0, padx=10, pady=5)
-account_type_desc_entry = ttk.Entry(master=input_frame, textvariable=account_type_desc)
-account_type_desc_entry.grid(row=1, column=1, padx=10, pady=5)
 
-account_type_curr_label = ttk.Label(master=input_frame, text="Moneda")
-account_type_curr_label.grid(row=2, column=0, padx=10, pady=5)
-account_type_curr_entry = ttk.Entry(master=input_frame, textvariable=account_type_curr)
-account_type_curr_entry.grid(row=2, column=1, padx=10, pady=5)
+## Relational ID
+rel_list = select_all_from_table(con) # pass with customer names and all
+rel_entry_label = ttk.Label(master=input_frame, text="Seleccione origen:")
+rel_entry = ttk.Combobox(master=input_frame, textvariable=rel)
+rel_entry["values"] = rel_list
+rel_entry_label.grid(row=0, column=0, padx=10, pady=5)
+rel_entry.grid(row=0, column=1, padx=10, pady=5)
+
+## Date entry
+movement_date_label = ttk.Label(master=input_frame, text="Seleccione la fecha del movimiento")
+movement_date_label.grid(row=1, column=1, padx=10, pady=5)
+movement_date_entry = Calendar(
+    master=input_frame,
+    selectmode="day",
+    year=int(datetime.now().strftime("%Y")),
+    month=int(datetime.now().strftime("%m")),
+    day=int(datetime.now().strftime("%d")),
+)
+movement_date_entry.grid(row=2, column=1, padx=10, pady=5)
 
 # submit button
 submit_button = ttk.Button(
