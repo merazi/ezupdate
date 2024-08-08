@@ -86,8 +86,8 @@ def build_account_type(
 
 def build_assign_client(
     id_client,
-    id_account,
     id_account_type,
+    id_account,
     userr,
     useru,
     dateu,

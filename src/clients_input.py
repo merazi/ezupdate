@@ -71,9 +71,12 @@ def create_client():
 
 
 window.title("Modulo Cliente")
+
 # theme
-window.tk.call("source", "./azure-theme/azure.tcl")
+theme_path = os.path.join(os.path.dirname(__file__), "azure_theme", "azure.tcl")
+window.tk.call("source", theme_path)
 window.tk.call("set_theme", "light")
+
 # input area fields
 input_frame = ttk.Frame(master=window)
 input_frame.grid(row=1, column=0, padx=10, pady=5)

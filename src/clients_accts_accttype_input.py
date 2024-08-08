@@ -6,7 +6,7 @@ from tkinter import ttk
 from datetime import datetime
 import mysql.connector
 import db_credentials
-import json
+import os
 
 # Create a connection
 h = db_credentials.host
@@ -39,12 +39,18 @@ tipo_cuenta = tk.StringVar()
 cuenta = tk.StringVar()
 
 
-def assign_acct_to_client():
-    # collect data from data entries
+def get_id_from_combobox(combo_StringVar):
+    """This function helps me extract the id number from the Comboboxes"""
+    id = [int(word) for word in combo_StringVar.get().split() if word.isdigit()][0]
+    return id
 
-    val_cliente = cliente.get()
-    val_tipo_cuenta = tipo_cuenta.get()
-    val_cuenta = cuenta.get()
+
+def assign_acct_to_client():
+
+    # collect data from data entries
+    val_cliente = get_id_from_combobox(cliente)
+    val_tipo_cuenta = get_id_from_combobox(tipo_cuenta)
+    val_cuenta = get_id_from_combobox(cuenta)
 
     # user information, placeholders for now
     now = datetime.now()
@@ -75,8 +81,10 @@ def assign_acct_to_client():
 
 
 window.title("Modulo Cliente")
+
 # theme
-window.tk.call("source", "./azure-theme/azure.tcl")
+theme_path = os.path.join(os.path.dirname(__file__), "azure_theme", "azure.tcl")
+window.tk.call("source", theme_path)
 window.tk.call("set_theme", "light")
 
 # input area fields
@@ -85,7 +93,9 @@ input_frame.grid(row=1, column=0, padx=10, pady=5)
 
 # title
 title_label = ttk.Label(
-    master=window, text="Ingrese Cliente", font="Calibri 24 bold"
+    master=window,
+    text="Relacionar Cuenta con Cliente (Y Tipo cuenta)",
+    font="Calibri 24 bold",
 ).grid(row=0, column=0, padx=10, pady=5)
 
 # fields

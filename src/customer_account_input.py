@@ -55,7 +55,8 @@ def create_account_type(endpoint, headers):
 window.title("Crear Tipo de Cuenta Nuevo")
 
 # theme
-window.tk.call("source", "./azure-theme/azure.tcl")
+theme_path = os.path.join(os.path.dirname(__file__), "azure_theme", "azure.tcl")
+window.tk.call("source", theme_path)
 window.tk.call("set_theme", "light")
 
 # input area fields
