@@ -5,6 +5,7 @@ import build_json as mj
 import send_request as sr
 from tkinter import ttk
 from datetime import datetime
+import os
 
 endpoint = endpoint.get_url()
 headers = {
