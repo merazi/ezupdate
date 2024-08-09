@@ -34,8 +34,14 @@ credit = tk.StringVar()
 balance = tk.StringVar()
 
 
-def select_all_from_table(table, connection):
-    query = f"SELECT * FROM {table} INNER JOIN "
+def select_all_from_table(connection):
+    query = (
+        f"SELECT rel.id_rel,c.nombres,cn.num_cuenta "
+        "FROM rel_cuentas_clientes as rel "
+        "INNER JOIN clientes as c "
+        "ON rel.id_cliente=c.id_cliente "
+        "JOIN cuentas as cn ON cn.id_cuenta=rel.id_cuenta"
+    )
     cursor = connection.cursor()
     cursor.execute(query)
     rows = cursor.fetchall()
@@ -48,15 +54,19 @@ def get_id_from_combobox(combo_StringVar):
     return id
 
 
-def create_account_type(endpoint, headers):
+def retrieve_input(text_area):
+    input = text_area.get("1.0", tk.END)
+    return input
+
+
+def create_movement(endpoint, headers):
     # collect data from data entries
-    # TODO: Change this...
-    val_rel_id = get_id_from_combobox(rel)
+    val_rel_id = get_id_from_combobox(rel_entry)
     val_date = movement_date_entry.get_date()
-    # val_description =
-    # val_charge =
-    # val_credit =
-    # val_balance =
+    val_description = retrieve_input(movement_description_entry)
+    val_charge = charge.get()
+    val_credit = credit.get()
+    val_balance = balance.get()
 
     # user information, placeholders for now
     now = datetime.now()
@@ -69,23 +79,25 @@ def create_account_type(endpoint, headers):
     val_timeu = now.strftime("%H:%M:%S")
 
     # create dictionary with all items
-    account_type_data = mj.build_account_type(
-        # val_rel_id,
-        # val_date,
-        # val_description,
-        # val_charge,
-        # val_credit,
-        # val_balance,
-        val_userr,
-        val_useru,
-        val_dateu,
-        val_dater,
-        val_status,
-        val_timer,
-        val_timeu,
+    account_type_data = mj.build_movement(
+       val_rel_id,
+       val_date,
+       val_description,
+       val_charge,
+       val_credit,
+       val_balance,
+       val_userr,
+       val_useru,
+       val_dateu,
+       val_dater,
+       val_status,
+       val_timer,
+       val_timeu,
     )
 
-    # send a request to the database
+
+
+    #send a request to the database
     sr.send_request(endpoint, account_type_data, headers)
 
 
@@ -108,16 +120,18 @@ title_label.grid(row=0, column=0, padx=10, pady=5)
 # fields
 
 ## Relational ID
-rel_list = select_all_from_table(con) # pass with customer names and all
+rel_list = select_all_from_table(con)  # pass with customer names and all
 rel_entry_label = ttk.Label(master=input_frame, text="Seleccione origen:")
 rel_entry = ttk.Combobox(master=input_frame, textvariable=rel)
 rel_entry["values"] = rel_list
 rel_entry_label.grid(row=0, column=0, padx=10, pady=5)
-rel_entry.grid(row=0, column=1, padx=10, pady=5)
+rel_entry.grid(row=1, column=0, padx=10, pady=5)
 
 ## Date entry
-movement_date_label = ttk.Label(master=input_frame, text="Seleccione la fecha del movimiento")
-movement_date_label.grid(row=1, column=1, padx=10, pady=5)
+movement_date_label = ttk.Label(
+    master=input_frame, text="Seleccione la fecha del movimiento"
+)
+movement_date_label.grid(row=0, column=1, padx=10, pady=5)
 movement_date_entry = Calendar(
     master=input_frame,
     selectmode="day",
@@ -125,11 +139,36 @@ movement_date_entry = Calendar(
     month=int(datetime.now().strftime("%m")),
     day=int(datetime.now().strftime("%d")),
 )
-movement_date_entry.grid(row=2, column=1, padx=10, pady=5)
+movement_date_entry.grid(row=1, column=1, padx=10, pady=5)
+
+# amounts (Cargo, Credito, Saldo)
+
+charge_label = ttk.Label(master=input_frame, text="Cargo: ")
+credit_label = ttk.Label(master=input_frame, text="Credito: ")
+balance_label = ttk.Label(master=input_frame, text="Saldo: ")
+
+charge_entry = ttk.Entry(master=input_frame, textvariable=charge)
+credit_entry = ttk.Entry(master=input_frame, textvariable=credit)
+balance_entry = ttk.Entry(master=input_frame, textvariable=balance)
+
+charge_label.grid(row=2, column=0, padx=10, pady=5)
+charge_entry.grid(row=2, column=1, padx=10, pady=5)
+
+credit_label.grid(row=3, column=0, padx=10, pady=5)
+credit_entry.grid(row=3, column=1, padx=10, pady=5)
+
+balance_label.grid(row=4, column=0, padx=10, pady=5)
+balance_entry.grid(row=4, column=1, padx=10, pady=5)
+
+# description entry
+movement_description_label = ttk.Label(master=input_frame, text="Descripcion:")
+movement_description_entry = tk.Text(master=input_frame, width=1, height=10)
+movement_description_label.grid(row=5, column=0, padx=10, pady=5, sticky="w")
+movement_description_entry.grid(row=6, column=0, columnspan=2, rowspan=2, sticky="nsew")
 
 # submit button
 submit_button = ttk.Button(
-    master=window, text="Submit", command=lambda: create_account_type(endpoint, headers)
+    master=window, text="Submit", command=lambda: create_movement(endpoint, headers)
 )
-submit_button.grid(row=3, column=0, padx=10, pady=5)
+submit_button.grid(row=6, column=0, padx=10, pady=5)
 window.mainloop()
